@@ -7,7 +7,7 @@ $m = [int]$nts.Minutes
 $s = [int]$nts.Seconds
 
 $x = ($h*3600)+($m*60)+$s
-$length = 306 
+$length = 306 #Total of minutes at work
 
 $MinText = "minutes"
 while($x -gt 0) {
