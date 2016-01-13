@@ -8,7 +8,7 @@ if($now -gt [string]$etour)
 }
 
 $et = [datetime]($now.ToShortDateString() + " " + $etour)
-$length =  $lenght=[datetime]$etour - [datetime]$btour #Total of minutes at work
+$lenght=[datetime]$etour - [datetime]$btour #Total of minutes at work
 $y = $et - $now
 $x = $y.TotalSeconds
 $MinText = "minutes"
