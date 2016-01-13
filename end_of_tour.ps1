@@ -1,15 +1,18 @@
+Param($btour,$etour)
+
 $now = Get-Date
-$et = [datetime]($now.ToShortDateString() + " 09:30 PM")
-$nts = New-TimeSpan -Start $now -End $et
 
-$h = [int]$nts.Hours
-$m = [int]$nts.Minutes
-$s = [int]$nts.Seconds
+if($now -gt [string]$etour)
+{ "According to the system clock your not schedule for work right now.";
+  exit;    
+}
 
-$x = ($h*3600)+($m*60)+$s
-$length = 306 #Total of minutes at work
-
+$et = [datetime]($now.ToShortDateString() + " " + $etour)
+$length =  $lenght=[datetime]$etour - [datetime]$btour #Total of minutes at work
+$y = $et - $now
+$x = $y.TotalSeconds
 $MinText = "minutes"
+
 while($x -gt 0) {
  $min = [int](([string]($x/60)).split('.')[0])
  if ($min -eq "1"){$MinText = "minute"}
@@ -22,7 +25,7 @@ while($x -gt 0) {
 
  $text = " " +"{0:00}" -f([Math]::Truncate($min/60)) + ":" + "{0:00}" -f(($min%60)) + ":" + "{0:00}" -f(($x % 60))
  $beep 
- Write-Progress "Time left remaining on the clock" -status $text -perc ($x/$length)
+ Write-Progress "Time left remaining on the clock" -status $text -perc ($x/$length.TotalMinutes)
  start-sleep -s 1
- $x--
+ $x --
 }
