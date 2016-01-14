@@ -1,31 +1,35 @@
-Param($btour,$etour)
+Param([datetime]$btour,[datetime]$etour)
+
+If (-not($btour) -or -not($etour)){
+exit
+}
 
 $now = Get-Date
 
-if($now -gt [string]$etour)
-{ "According to the system clock your not schedule for work right now.";
-  exit;    
+If ($etour -lt $btour)
+{
+    If ($now -gt "00:00" -and $now -lt "12:00")
+    {
+        $btour=$btour.AddDays(-1)
+    }
+    Else
+    {
+        $etour = $etour.AddDays(1)
+    }
+ }   
+Elseif ($now -gt $etour)
+{ 
+    "According to the system clock your not schedule for work right now.";
+    exit;    
 }
 
-$et = [datetime]($now.ToShortDateString() + " " + $etour)
-$lenght=[datetime]$etour - [datetime]$btour #Total of minutes at work
-$y = $et - $now
-$x = $y.TotalSeconds
-$MinText = "minutes"
+$lenght = $etour - $btour #Total of minutes at work
+$x = $etour - $now
 
-while($x -gt 0) {
- $min = [int](([string]($x/60)).split('.')[0])
- if ($min -eq "1"){$MinText = "minute"}
 
- if ($min -eq "0") {
- $min = $null
- $MinText = "less than a minute"
- $Beep = [system.console]::Beep(2900,50)
- }
-
- $text = " " +"{0:00}" -f([Math]::Truncate($min/60)) + ":" + "{0:00}" -f(($min%60)) + ":" + "{0:00}" -f(($x % 60))
- $beep 
- Write-Progress "Time left remaining on the clock" -status $text -perc ($x/$length.TotalMinutes)
- start-sleep -s 1
- $x --
+for ($a = $x.TotalSeconds; $a -gt 1; $a--) {
+  $complete = $a / $lenght.TotalSeconds;
+  $complete = "{0:P2}" -f $complete
+  Write-Progress -Activity "Working..." -SecondsRemaining $a -CurrentOperation "$complete complete" -Status "Please wait."
+  Start-Sleep 1
 }
