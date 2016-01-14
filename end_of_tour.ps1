@@ -1,27 +1,34 @@
 Param([datetime]$btour,[datetime]$etour)
 
-If (-not($btour) -or -not($etour)){
+if (-not($btour) -or -not($etour)){
 exit
 }
 
 $now = Get-Date
 
+   
+   
 If ($etour -lt $btour)
-{
+ {
     If ($now -gt "00:00" -and $now -lt "12:00")
-    {
+     {
         $btour=$btour.AddDays(-1)
-    }
-    Else
-    {
+     }
+    else
+     {
+        if($btour -gt $now){exit;}
         $etour = $etour.AddDays(1)
-    }
- }   
-Elseif ($now -gt $etour)
-{ 
-    "According to the system clock your not schedule for work right now.";
-    exit;    
-}
+     }
+ }
+elseif ($now -gt $etour)
+  { 
+    exit;  
+  }
+elseif ($btour -gt $now)
+  {
+    exit;
+  }
+ 
 
 $lenght = $etour - $btour #Total of minutes at work
 $x = $etour - $now
