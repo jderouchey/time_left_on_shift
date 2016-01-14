@@ -6,8 +6,6 @@ exit
 
 $now = Get-Date
 
-   
-   
 If ($etour -lt $btour)
  {
     If ($now -gt "00:00" -and $now -lt "12:00")
@@ -29,10 +27,8 @@ elseif ($btour -gt $now)
     exit;
   }
  
-
 $lenght = $etour - $btour #Total of minutes at work
 $x = $etour - $now
-
 
 for ($a = $x.TotalSeconds; $a -gt 1; $a--) {
   $complete = $a / $lenght.TotalSeconds;
