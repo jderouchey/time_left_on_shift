@@ -1,3 +1,7 @@
+
+# If you have trouble running the script the fix is to run Set-ExecutionPolicy and change the Execution Policy setting.
+# Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+
 Param([datetime]$btour,[datetime]$etour)
 
 if (-not($btour) -or -not($etour)){
