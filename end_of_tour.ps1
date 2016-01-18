@@ -33,6 +33,6 @@ $x = $etour - $now
 for ($a = $x.TotalSeconds; $a -gt 1; $a--) {
   $complete = $a / $lenght.TotalSeconds;
   $complete = "{0:P2}" -f $complete
-  Write-Progress -Activity "Working..." -SecondsRemaining $a -CurrentOperation "$complete complete" -Status "Please wait."
+  Write-Progress -Activity "Working..." -SecondsRemaining $a -CurrentOperation "$complete remaining" -Status "Please wait."
   Start-Sleep 1
 }
